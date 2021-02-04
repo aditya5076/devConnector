@@ -114,4 +114,27 @@ router.get(
   }
 );
 
+// GET ALL USERS
+router.get("/all", (req, res) => {
+  const errors = {};
+  User.find().then((foundUsers) => {
+    if (!foundUsers) {
+      errors.users = "there's no users";
+      return res.status(404).json(errors);
+    }
+    res.json(foundUsers);
+  });
+});
+
+// DELETE USER
+router.delete("/", (req, res) => {
+  User.findOneAndRemove({ _id: req.user.id })
+    .then(() => {
+      res.json({ deleted: true });
+    })
+    .catch((e) => {
+      res.status(400).json(e);
+    });
+});
+
 module.exports = router;
