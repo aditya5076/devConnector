@@ -78,7 +78,12 @@ router.post("/login", (req, res) => {
     bcrypt.compare(password, user.password).then((matched) => {
       if (matched) {
         // res.json({ msg: "logged in" });
-        const payload = { id: user.id, name: user.name, email: user.email };
+        const payload = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+        };
 
         // sign/make token
         jwt.sign(
@@ -88,7 +93,7 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              access_token: "Bearer " + token,
+              access_token: token,
             });
           }
         );
